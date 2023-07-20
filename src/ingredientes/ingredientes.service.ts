@@ -40,7 +40,7 @@ export class IngredientesService {
     return this.IngredienteRepository.find();
   }
 
-  //Mostrar um Ingrediente de acordo com seu id
+  //Mostrar um Ingrediente de acordo com id
   findOne(id: number) {
     return this.IngredienteRepository.findOneBy({id});
   }
