@@ -37,7 +37,7 @@ export class IngredientesService {
 
   //Mostrar todos os Ingredientes
   findAll() {
-    return this.IngredienteRepository.find;
+    return this.IngredienteRepository.find();
   }
 
   //Mostrar um Ingrediente de acordo com seu id

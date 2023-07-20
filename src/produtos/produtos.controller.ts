@@ -12,6 +12,18 @@ export class ProdutosController {
     return this.produtosService.create(createProdutoDto);
   }
 
+  @Post(':nomeProduto/ingredientes')
+  async adicionarIngredientesAoProduto(
+    @Param('nomeProduto') nomeProduto: string,
+    @Body() ingredientes: string[],
+  ) {
+    const produto = await this.produtosService.adicionarIngredientesAoProduto(
+      nomeProduto,
+      ingredientes,
+    );
+    return { message: 'Ingredientes adicionados ao produto com sucesso', produto };
+  }
+
   @Get()
   findAll() {
     return this.produtosService.findAll();

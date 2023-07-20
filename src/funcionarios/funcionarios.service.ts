@@ -12,7 +12,7 @@ export class FuncionariosService {
 
   //Criar um novo usuário
   async create(createFuncionarioDto: CreateFuncionarioDto): Promise<Funcionario> {
-    const { username } = createFuncionarioDto;
+    const { username , password} = createFuncionarioDto;
 
     //Verificando se o usuário já existe
     const funcionarioAlreadyExists = await this.funcionarioRepository.findOne({
@@ -26,16 +26,14 @@ export class FuncionariosService {
       );
     }
 
-    const hashed_password = await this.hashPassword(createFuncionarioDto.password);
-    delete createFuncionarioDto.password;
-
+    const hashed_password = await this.hashPassword(password);
+    //delete createFuncionarioDto.password;
+    
 
     const newFuncionario = this.funcionarioRepository.create({
-      hashed_password,
-      ...createFuncionarioDto,
-      /*createdAt: new Date(),*/
+      password: hashed_password,
+      ...createFuncionarioDto
     });
-
 
     await this.funcionarioRepository.save(newFuncionario);
 
@@ -50,6 +48,15 @@ export class FuncionariosService {
   //Mostrar um usuário de acordo com seu id
   findOne(id: number) {
     return this.funcionarioRepository.findOneBy({id});
+  }
+
+  //Procurar um usuário de acordo com o seu username
+  async findOneByUsername(username: string): Promise<Funcionario | null> {
+    const funcionario = await this.funcionarioRepository.findOne({
+      where: { username },
+    });
+
+    return funcionario || null;
   }
 
   //Atualizar os dados de um usuário
